@@ -1,12 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import ResultsContent from "./components/resultsContent";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { AppSidebar } from "./components/sidebar";
 import { Input } from "@/components/ui/input";
 import { useSearch } from "@/hooks/useSearch";
 import { Button } from "@/components/ui/button";
@@ -21,17 +19,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AppSidebar } from "./components/AppSidebar";
+import MediaResult from "./components/MediaResult";
 
 export default function ResultPage() {
   const searchParams = useSearchParams();
   const term = searchParams.get("term");
   const { searchTerm, setSearchTerm, handleSearch } = useSearch();
-
   const [type, setType] = useState<string>("");
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+    <AppSidebar/>
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
@@ -51,7 +50,7 @@ export default function ResultPage() {
             <Button type="submit" className="w-60 text-md" variant="noShadow">
               Search
             </Button>
-            <div className="flex items-center px-5 gap-8">
+            <div className="flex items-center">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="noShadow">Filter</Button>
@@ -60,66 +59,54 @@ export default function ResultPage() {
                   <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <Checkbox
-                        checked={type === "song"}
-                        onCheckedChange={(checked) =>
-                          setType(checked ? "song" : "")
-                        }
-                      />
-                      <label>Song</label>
+                    <DropdownMenuItem
+                      onSelect={() => setType(type === "song" ? "" : "song")}
+                      className="cursor-pointer"
+                    >
+                      <Checkbox checked={type === "song"} />
+                      <span>Song</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Checkbox
-                        checked={type === "podcast"}
-                        onCheckedChange={(checked) =>
-                          setType(checked ? "podcast" : "")
-                        }
-                      />
-                      <label>Podcast</label>
+                    <DropdownMenuItem
+                      onSelect={() => setType(type === "podcast" ? "" : "podcast")}
+                      className="cursor-pointer"
+                    >
+                      <Checkbox checked={type === "podcast"} />
+                      <span>Podcast</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Checkbox
-                        checked={type === "feature-movie"}
-                        onCheckedChange={(checked) =>
-                          setType(checked ? "feature-movie" : "")
-                        }
-                      />
-                      <label>Movie</label>
+                    <DropdownMenuItem
+                      onSelect={() => setType(type === "feature-movie" ? "" : "feature-movie")}
+                      className="cursor-pointer"
+                    >
+                      <Checkbox checked={type === "feature-movie"} />
+                      <span>Movie</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Checkbox
-                        checked={type === "audiobook"}
-                        onCheckedChange={(checked) =>
-                          setType(checked ? "audiobook" : "")
-                        }
-                      />
-                      <label>Audiobook</label>
+                    <DropdownMenuItem
+                      onSelect={() => setType(type === "audiobook" ? "" : "audiobook")}
+                      className="cursor-pointer"
+                    >
+                      <Checkbox checked={type === "audiobook"} />
+                      <span>Audiobook</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Checkbox
-                        checked={type === "music-videos"}
-                        onCheckedChange={(checked) =>
-                          setType(checked ? "music-videos" : "")
-                        }
-                      />
-                      <label>Music Videos</label>
+                    <DropdownMenuItem
+                      onSelect={() => setType(type === "music-videos" ? "" : "music-videos")}
+                      className="cursor-pointer"
+                    >
+                      <Checkbox checked={type === "music-videos"} />
+                      <span>Music Videos</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Checkbox
-                        checked={type === "tv-episode"}
-                        onCheckedChange={(checked) =>
-                          setType(checked ? "tv-episode" : "")
-                        }
-                      />
-                      <label>TV Episode</label>
+                    <DropdownMenuItem
+                      onSelect={() => setType(type === "tv-episode" ? "" : "tv-episode")}
+                      className="cursor-pointer"
+                    >
+                      <Checkbox checked={type === "tv-episode"} />
+                      <span>TV Episode</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </form>
-          <ResultsContent term={term || ""} type={type || ""} />
+          <MediaResult term={term || ""} type={type || ""} ResetType={setType} />
         </div>
       </SidebarInset>
     </SidebarProvider>
